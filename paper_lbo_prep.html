@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paper LBO Prep — Zachariah</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --border: #2a2a3a;
+    --accent: #00e5a0;
+    --accent2: #4f8fff;
+    --warn: #ff6b35;
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 100;
+  }
+  .header-title {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .header-sub {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: var(--mono);
+    margin-top: 2px;
+  }
+  .nav {
+    display: flex;
+    gap: 4px;
+  }
+  .nav-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    background: none;
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.05em;
+  }
+  .nav-btn:hover, .nav-btn.active {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(0,229,160,0.05);
+  }
+
+  /* LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px; }
+
+  /* TABS */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* SECTION HEADERS */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent2);
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  /* WEAKNESS TRACKER */
+  .weakness-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .weakness-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--warn);
+    padding: 16px 20px;
+  }
+  .weakness-item.resolved {
+    border-left-color: var(--accent);
+    opacity: 0.6;
+  }
+  .weakness-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--warn);
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .weakness-item.resolved .weakness-label { color: var(--accent); }
+  .weakness-desc {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .weakness-fix {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+  }
+
+  /* FORMULA SHEET */
+  .formula-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .formula-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px;
+  }
+  .formula-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .formula {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: #c8f0e0;
+    background: rgba(0,229,160,0.06);
+    border: 1px solid rgba(0,229,160,0.15);
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    line-height: 1.7;
+  }
+  .formula-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+  .formula span.hl { color: var(--warn); }
+  .formula span.eq { color: var(--accent2); }
+
+  /* ORDER OF OPS */
+  .ops-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .ops-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .ops-step:last-child { border-bottom: none; }
+  .ops-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(0,229,160,0.1);
+    border: 1px solid rgba(0,229,160,0.3);
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .ops-content { flex: 1; }
+  .ops-title {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .ops-detail {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .ops-detail code {
+    font-family: var(--mono);
+    background: var(--surface2);
+    padding: 1px 5px;
+    font-size: 11px;
+    color: var(--accent2);
+  }
+
+  /* TRIGGER TABLE */
+  .trigger-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .trigger-table th {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .trigger-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .trigger-table tr:last-child td { border-bottom: none; }
+  .trigger-table td:first-child {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent2);
+    width: 35%;
+  }
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 0;
+    letter-spacing: 0.05em;
+    margin-right: 4px;
+  }
+  .tag-full { background: rgba(255,107,53,0.15); color: var(--warn); border: 1px solid rgba(255,107,53,0.3); }
+  .tag-simple { background: rgba(0,229,160,0.1); color: var(--accent); border: 1px solid rgba(0,229,160,0.3); }
+
+  /* PRACTICE SECTION */
+  .problem-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .problem-header {
+    padding: 16px 24px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .problem-title {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .difficulty {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 10px;
+    border: 1px solid;
+  }
+  .diff-1 { color: var(--accent); border-color: var(--accent); }
+  .diff-2 { color: #ffd166; border-color: #ffd166; }
+  .diff-3 { color: var(--warn); border-color: var(--warn); }
+
+  .problem-body { padding: 24px; }
+  .problem-text {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  .problem-bullets {
+    list-style: none;
+    margin-bottom: 20px;
+  }
+  .problem-bullets li {
+    font-size: 13px;
+    color: var(--text);
+    padding: 5px 0 5px 16px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .problem-bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-family: var(--mono);
+  }
+  .problem-ask {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--warn);
+    background: rgba(255,107,53,0.07);
+    border: 1px solid rgba(255,107,53,0.2);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  .answer-area {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 14px;
+    resize: vertical;
+    min-height: 120px;
+    outline: none;
+    line-height: 1.7;
+    transition: border-color 0.15s;
+  }
+  .answer-area:focus { border-color: var(--accent); }
+  .answer-area::placeholder { color: var(--muted); }
+
+  .btn-row { display: flex; gap: 8px; margin-top: 12px; }
+  .btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border: 1px solid;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: none;
+  }
+  .btn-primary {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .btn-primary:hover {
+    background: rgba(0,229,160,0.1);
+  }
+  .btn-secondary {
+    color: var(--muted);
+    border-color: var(--border);
+  }
+  .btn-secondary:hover {
+    color: var(--text);
+    border-color: var(--muted);
+  }
+
+  .solution-panel {
+    display: none;
+    margin-top: 20px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+  .solution-panel.open { display: block; }
+  .solution-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .solution-steps {
+    list-style: none;
+  }
+  .solution-steps li {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    padding: 8px 0 8px 20px;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.6;
+  }
+  .solution-steps li:last-child { border-bottom: none; }
+  .solution-steps li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+  .solution-steps li span.num { color: #c8f0e0; }
+  .solution-steps li span.warn { color: var(--warn); }
+
+  .pitfall-box {
+    margin-top: 16px;
+    background: rgba(255,107,53,0.05);
+    border: 1px solid rgba(255,107,53,0.2);
+    padding: 14px 18px;
+  }
+  .pitfall-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--warn);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .pitfall-text {
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* RULE OF 72 REFERENCE */
+  .rule-table {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .rule-cell {
+    background: var(--surface);
+    padding: 16px 20px;
+    text-align: center;
+  }
+  .rule-cell.header {
+    background: var(--surface2);
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .rule-num {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .rule-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .rule-formula {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text);
+    background: var(--surface2);
+    padding: 4px 8px;
+  }
+
+  /* GRID HELPERS */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .spacer { height: 32px; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-title">Paper LBO Prep System</div>
+    <div class="header-sub">Zachariah · Built from Q1–Q4 debrief · May 2026</div>
+  </div>
+  <div class="nav">
+    <button class="nav-btn active" onclick="switchTab('weaknesses')">Weaknesses</button>
+    <button class="nav-btn" onclick="switchTab('formulas')">Formula Sheet</button>
+    <button class="nav-btn" onclick="switchTab('ops')">Order of Ops</button>
+    <button class="nav-btn" onclick="switchTab('practice')">Practice</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- TAB: WEAKNESSES -->
+  <div class="tab-content active" id="tab-weaknesses">
+    <div class="section-label">Diagnosed Errors from Q1–Q4</div>
+
+    <div class="weakness-grid">
+      <div class="weakness-item">
+        <div class="weakness-label">⚠ Error #1 — Interest Rate Anchor</div>
+        <div class="weakness-desc">Applied interest rate to revenue or EBITDA instead of the debt balance.</div>
+        <div class="weakness-fix">FIX: Interest = Interest Rate × Debt Balance (always). The % is a rate, the base is debt.</div>
+      </div>
+      <div class="weakness-item">
+        <div class="weakness-label">⚠ Error #2 — Management Dilution</div>
+        <div class="weakness-desc">Subtracted mgmt % from required equity instead of grossing up. mgmt dilution must inflate the total equity pool, not reduce what you need.</div>
+        <div class="weakness-fix">FIX: Total Equity = PE Proceeds Required ÷ (1 − Mgmt %)</div>
+      </div>
+      <div class="weakness-item">
+        <div class="weakness-label">⚠ Error #3 — Zero vs. Negative Taxes</div>
+        <div class="weakness-desc">Applied tax rate when EBT was zero or negative, generating phantom tax benefits that distort net income.</div>
+        <div class="weakness-fix">FIX: If EBT ≤ 0, taxes = $0. Tax shield is not modeled in paper LBOs.</div>
+      </div>
+      <div class="weakness-item">
+        <div class="weakness-label">⚠ Error #4 — Extra Forward Year Column</div>
+        <div class="weakness-desc">Added a full column for the forward year when it only needs EBITDA for exit multiple purposes. All other line items stop at hold period end.</div>
+        <div class="weakness-fix">FIX: Count hold years exactly. Add one forward-only column with EBITDA only.</div>
+      </div>
+      <div class="weakness-item">
+        <div class="weakness-label">⚠ Error #5 — Stopped One Step Short (Q4)</div>
+        <div class="weakness-desc">Calculated MoM correctly (3.18x) but didn't solve back to the capex budget. Got the intermediate answer, missed the actual ask.</div>
+        <div class="weakness-fix">FIX: On solve-back questions always re-read the ask after getting MoM. What is the question actually asking for?</div>
+      </div>
+      <div class="weakness-item">
+        <div class="weakness-label">⚠ Error #6 — Revenue vs. EBITDA for Debt</div>
+        <div class="weakness-desc">Multiplied leverage multiple by revenue ($100) instead of EBITDA ($20), getting $500 debt instead of $100.</div>
+        <div class="weakness-fix">FIX: Leverage multiple is always × EBITDA. Write "EBITDA × Lev = Debt" before starting.</div>
+      </div>
+    </div>
+
+    <div class="section-label">Pattern Summary</div>
+    <div class="card">
+      <div class="card-title">Root Cause Analysis</div>
+      <div class="ops-flow">
+        <div class="ops-step">
+          <div class="ops-num">1</div>
+          <div class="ops-content">
+            <div class="ops-title">Structure is solid — mechanics are slipping</div>
+            <div class="ops-detail">You understand the flow (assumptions → entry → IS → CF → exit). Errors are downstream calculation mistakes, not conceptual gaps. This is fixable fast.</div>
+          </div>
+        </div>
+        <div class="ops-step">
+          <div class="ops-num">2</div>
+          <div class="ops-content">
+            <div class="ops-title">Base confusion is the #1 issue</div>
+            <div class="ops-detail">Interest anchored to wrong base. Debt anchored to wrong base. Margin anchored to wrong base. Drill: <code>Interest = rate × debt</code>, <code>Debt = lev × EBITDA</code>, <code>D&A = % × revenue</code>, <code>EBITDA = margin × revenue</code>.</div>
+          </div>
+        </div>
+        <div class="ops-step">
+          <div class="ops-num">3</div>
+          <div class="ops-content">
+            <div class="ops-title">Solve-backwards questions need a final inference step</div>
+            <div class="ops-detail">Q1 (exit multiple) and Q4 (capex budget) require solving backwards from a constraint. Always ask: "what is the binding constraint?" then work backwards to zero.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: FORMULAS -->
+  <div class="tab-content" id="tab-formulas">
+    <div class="section-label">Decision Tree — Full IS/CF vs. Simple Multiple</div>
+    <div class="card" style="margin-bottom:32px;">
+      <table class="trigger-table">
+        <thead>
+          <tr>
+            <th>Language in the Prompt</th>
+            <th>What It Triggers</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>"revenues of $Xmm...grow by $Y / Z%"</td>
+            <td>Build full income statement with revenue build, margins, D&A, interest, taxes, net income, then CF</td>
+            <td><span class="tag tag-full">FULL IS + CF</span></td>
+          </tr>
+          <tr>
+            <td>"EBITDA margin," "D&A expense," "capex," "NWC," "tax rate"</td>
+            <td>Each of these signals you need to build the full P&L stack. Any one = full IS.</td>
+            <td><span class="tag tag-full">FULL IS + CF</span></td>
+          </tr>
+          <tr>
+            <td>"cash generated pays down debt" or "interest rate is X%"</td>
+            <td>Need IS to get net income → CF to get debt paydown. Cannot skip.</td>
+            <td><span class="tag tag-full">FULL IS + CF</span></td>
+          </tr>
+          <tr>
+            <td>"EBITDA of $Xmm with no growth," entry/exit multiple given, debt paydown % given</td>
+            <td>No IS needed. Just entry, debt math, exit TEV, equity bridge.</td>
+            <td><span class="tag tag-simple">SIMPLE MULTIPLE</span></td>
+          </tr>
+          <tr>
+            <td>"what multiple must you sell at" or "what MoM do you achieve"</td>
+            <td>Solve-backwards or solve-forwards. Check whether you have enough to skip IS.</td>
+            <td><span class="tag tag-simple">SOLVE BACK</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-label">Core Formulas</div>
+    <div class="formula-grid">
+
+      <div class="formula-block">
+        <div class="formula-title">Entry Mechanics</div>
+        <div class="formula"><span class="eq">Entry TEV</span> = EBITDA × Entry Multiple</div>
+        <div class="formula"><span class="eq">Initial Debt</span> = EBITDA × <span class="hl">Leverage Multiple</span></div>
+        <div class="formula"><span class="eq">Entry Equity</span> = Entry TEV − Initial Debt</div>
+        <div class="formula-note">⚠ Leverage is ALWAYS × EBITDA, never × revenue. Write this first before anything else.</div>
+      </div>
+
+      <div class="formula-block">
+        <div class="formula-title">Income Statement Stack</div>
+        <div class="formula">
+          Revenue<br>
+          × EBITDA Margin = <span class="eq">EBITDA</span><br>
+          − D&A (<span class="hl">% of Revenue</span>) = EBIT<br>
+          − Interest (<span class="hl">rate × Debt Balance</span>) = EBT<br>
+          − Taxes (<span class="hl">rate × EBT, floor $0</span>) = Net Income
+        </div>
+        <div class="formula-note">D&A is % of revenue, not EBITDA. Interest base is debt balance, not revenue or EBITDA.</div>
+      </div>
+
+      <div class="formula-block">
+        <div class="formula-title">Free Cash Flow</div>
+        <div class="formula">
+          FCF = Net Income<br>
+          + D&A<br>
+          − CapEx<br>
+          <span class="hl">− ΔWorking Capital</span>
+        </div>
+        <div class="formula-note">NWC use is always NEGATIVE in the CF statement (cash goes out to fund working capital). An increase in NWC = cash outflow.</div>
+      </div>
+
+      <div class="formula-block">
+        <div class="formula-title">Exit &amp; Returns</div>
+        <div class="formula">
+          <span class="eq">Exit TEV</span> = Exit EBITDA × Exit Multiple<br>
+          <span class="eq">Exit Equity</span> = Exit TEV − Ending Net Debt<br>
+          <span class="eq">MoM</span> = Exit Equity ÷ Entry Equity<br>
+          <span class="eq">IRR</span> ≈ Rule of 72 / 114 / 144 ÷ Years
+        </div>
+        <div class="formula-note">Exit EBITDA = forward year (year after hold end). Ending Net Debt = Initial Debt − Cumulative CF (if paying down annually) or Initial Debt − total CF at exit (lump sum).</div>
+      </div>
+
+      <div class="formula-block">
+        <div class="formula-title">Management Dilution (Gross-Up)</div>
+        <div class="formula">
+          PE needs $X at exit<br>
+          Mgmt owns Y%<br>
+          <span class="eq">Total Exit Equity</span> = X ÷ (1 − Y%)
+        </div>
+        <div class="formula-note">Never subtract Y% from X. Gross up. Then add ending debt to get exit TEV. Then divide by exit EBITDA for exit multiple.</div>
+      </div>
+
+      <div class="formula-block">
+        <div class="formula-title">Solve-Backwards Template</div>
+        <div class="formula">
+          Target MoM → Required Exit Equity<br>
+          + Ending Net Debt → Required Exit TEV<br>
+          ÷ Exit EBITDA → Required Exit Multiple
+        </div>
+        <div class="formula-note">For capex budget: Required Exit Equity → Required Ending Debt → Required CF paydown → Slack vs. actual CF generated = max capex.</div>
+      </div>
+
+    </div>
+
+    <div class="spacer"></div>
+    <div class="section-label">IRR Quick Reference — Rule of 72 / 114 / 144</div>
+    <div class="rule-table">
+      <div class="rule-cell header">Rule</div>
+      <div class="rule-cell header">For MoM Target</div>
+      <div class="rule-cell header">How to Use</div>
+      <div class="rule-cell">
+        <div class="rule-num">72</div>
+        <div class="rule-label">2× MoM</div>
+        <div class="rule-formula">IRR ≈ 72 ÷ Years</div>
+      </div>
+      <div class="rule-cell">
+        <div class="rule-num">114</div>
+        <div class="rule-label">3× MoM</div>
+        <div class="rule-formula">IRR ≈ 114 ÷ Years</div>
+      </div>
+      <div class="rule-cell">
+        <div class="rule-num">144</div>
+        <div class="rule-label">4× MoM</div>
+        <div class="rule-formula">IRR ≈ 144 ÷ Years</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Examples</div>
+      <div class="ops-flow">
+        <div class="ops-step">
+          <div class="ops-num">→</div>
+          <div class="ops-content">
+            <div class="ops-title">2× over 3 years → IRR ≈ 72 ÷ 3 = 24%</div>
+            <div class="ops-detail">Answer #2 used this. Actual was 27% — rule gets you close enough to sanity-check.</div>
+          </div>
+        </div>
+        <div class="ops-step">
+          <div class="ops-num">→</div>
+          <div class="ops-content">
+            <div class="ops-title">4× over 5 years → IRR ≈ 144 ÷ 5 = 28.8%</div>
+            <div class="ops-detail">Answer #3 (4.1x over 5 years) used rule of 144. Actual was 33%.</div>
+          </div>
+        </div>
+        <div class="ops-step">
+          <div class="ops-num">→</div>
+          <div class="ops-content">
+            <div class="ops-title">3× over 4 years → IRR ≈ 114 ÷ 4 = 28.5%</div>
+            <div class="ops-detail">Q4 scenario. Always match the rule to the MoM, then divide by hold years.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: ORDER OF OPS -->
+  <div class="tab-content" id="tab-ops">
+
+    <div class="two-col">
+      <div>
+        <div class="section-label">Process A — Simple Multiple (No IS)</div>
+        <div class="ops-flow">
+          <div class="ops-step">
+            <div class="ops-num">1</div>
+            <div class="ops-content">
+              <div class="ops-title">Anchor EBITDA</div>
+              <div class="ops-detail">Identify entry EBITDA. Write it down first. This is the base for everything.</div>
+            </div>
+          </div>
+          <div class="ops-step">
+            <div class="ops-num">2</div>
+            <div class="ops-content">
+              <div class="ops-title">Entry TEV & Debt</div>
+              <div class="ops-detail"><code>TEV = EBITDA × Entry Multiple</code><br><code>Debt = EBITDA × Leverage Multiple</code></div>
+            </div>
+          </div>
+          <div class="ops-step">
+            <div class="ops-num">3</div>
+            <div class="ops-content">
+              <div class="ops-title">Entry Equity</div>
+              <div class="ops-detail"><code>Equity = TEV − Debt</code></div>
+            </div>
+          </div>
+          <div class="ops-step">
+            <div class="ops-num">4</div>
+            <div class="ops-content">
+              <div class="ops-title">Ending Debt</div>
+              <div class="ops-detail">Apply given paydown % to initial debt. Or use cumulative CF if specified.</div>
+            </div>
+          </div>
+          <div class="ops-step">
+            <div class="ops-num">5</div>
+            <div class="ops-content">
+              <div class="ops-title">Target Exit Equity (Gross Up for Mgmt if Needed)</div>
+              <div class="ops-detail"><code>Target Equity = Entry Equity × MoM</code><br>If mgmt dilution: <code>Total Equity = Target ÷ (1 − Mgmt%)</code></div>
+            </div>
+          </div>
+          <div class="ops-step">
+            <div class="ops-num">6</div>
+            <div class="ops-content">
+              <div class="ops-title">Exit TEV → Exit Multiple</div>
+              <div class="ops-detail"><code>Exit TEV = Exit Equity + Ending Debt</code><br><code>Exit Multiple = Exit TEV ÷ Exit EBITDA</code></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label">Process B — Full IS + CF Build</div>
+        <div class="ops-flow">
+          <div class="ops-step">
+            <div class="ops-num">1</div>
+            <div class="ops-content">
+              <div class="ops-title">Write Assumptions Box First</div>
+              <div class="ops-detail">Interest rate, tax rate, capex %, D&A %, NWC rule, leverage, entry & exit multiple.</div>
+            </div>
+          </div>
+          <div class="ops-step">
+            <div class="ops-num">2</div>
+            <div class="ops-content">
+              <div class="ops-title">Build Entry</div>
+              <div class="ops-detail"><code>Entry EBITDA = Year 1 Revenue × Margin</code><br><code>Debt = Entry EBITDA × Leverage</code><br><code>TEV = EBITDA × Entry Multiple</code><br><code>Equity = TEV − Debt</code></div>
+            </div>
+          </div>
+          <div class="ops-step">
+            <div class="ops-num">3</div>
+            <div class="ops-content">
+              <div class="ops-title">Build Revenue Schedule</div>
+              <div class="ops-detail">Year by year. Hold period + 1 forward year (EBITDA only in forward year).</div>
+            </div>
+          </div>
+          <div class="ops-step">
+            <div class="ops-num">4</div>
+            <div class="ops-content">
+              <div class="ops-title">Income Statement (each year)</div>
+              <div class="ops-detail">Revenue → EBITDA → (−D&A) → EBIT → (−Interest on beg. debt balance) → EBT → (−Tax, floor $0) → Net Income</div>
+            </div>
+          </div>
+          <div class="ops-step">
+            <div class="ops-num">5</div>
+            <div class="ops-content">
+              <div class="ops-title">Cash Flow (each year)</div>
+              <div class="ops-detail"><code>CF = NI + D&A − CapEx − ΔNWC</code><br>NWC outflow is negative. CapEx is negative.</div>
+            </div>
+          </div>
+          <div class="ops-step">
+            <div class="ops-num">6</div>
+            <div class="ops-content">
+              <div class="ops-title">Debt Schedule (if annual paydown)</div>
+              <div class="ops-detail"><code>Beg Debt = Prior Ending Debt</code><br><code>End Debt = Beg Debt − CF (floor $0)</code><br>Next year's interest uses new beg balance.</div>
+            </div>
+          </div>
+          <div class="ops-step">
+            <div class="ops-num">7</div>
+            <div class="ops-content">
+              <div class="ops-title">Exit</div>
+              <div class="ops-detail"><code>Exit TEV = Forward EBITDA × Exit Multiple</code><br><code>Exit Equity = Exit TEV − Ending Net Debt</code></div>
+            </div>
+          </div>
+          <div class="ops-step">
+            <div class="ops-num">8</div>
+            <div class="ops-content">
+              <div class="ops-title">Returns</div>
+              <div class="ops-detail"><code>MoM = Exit Equity ÷ Entry Equity</code><br><code>IRR ≈ Rule of 72/114/144 ÷ Hold Years</code></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+    <div class="section-label">Common Traps Checklist</div>
+    <div class="card">
+      <div class="ops-flow">
+        <div class="ops-step">
+          <div class="ops-num">✓</div>
+          <div class="ops-content">
+            <div class="ops-title">Did I use EBITDA (not revenue) as the leverage base?</div>
+            <div class="ops-detail">Debt = Leverage Multiple × <strong>EBITDA</strong>. Never revenue.</div>
+          </div>
+        </div>
+        <div class="ops-step">
+          <div class="ops-num">✓</div>
+          <div class="ops-content">
+            <div class="ops-title">Did I apply interest to the right debt balance?</div>
+            <div class="ops-detail">If annual paydown: interest on beginning-of-year balance. If lump sum: interest on original debt throughout.</div>
+          </div>
+        </div>
+        <div class="ops-step">
+          <div class="ops-num">✓</div>
+          <div class="ops-content">
+            <div class="ops-title">Did I floor taxes at $0?</div>
+            <div class="ops-detail">If EBT ≤ 0, taxes = $0. Net Income = EBT when EBT is negative (no tax benefit modeled).</div>
+          </div>
+        </div>
+        <div class="ops-step">
+          <div class="ops-num">✓</div>
+          <div class="ops-content">
+            <div class="ops-title">Is NWC a subtraction in my CF?</div>
+            <div class="ops-detail">Increase in NWC = cash use = negative in FCF. Always subtract ΔNWC.</div>
+          </div>
+        </div>
+        <div class="ops-step">
+          <div class="ops-num">✓</div>
+          <div class="ops-content">
+            <div class="ops-title">Did I use the forward year EBITDA for exit (not the last hold year)?</div>
+            <div class="ops-detail">Exit multiple applies to the year AFTER the hold ends. Build that column with EBITDA only.</div>
+          </div>
+        </div>
+        <div class="ops-step">
+          <div class="ops-num">✓</div>
+          <div class="ops-content">
+            <div class="ops-title">On solve-back questions: did I answer the actual ask?</div>
+            <div class="ops-detail">Getting MoM is not always the final step. Re-read the question after computing returns.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: PRACTICE -->
+  <div class="tab-content" id="tab-practice">
+    <div class="section-label">New Practice Problems — Targeting Your Weak Points</div>
+
+    <!-- PROBLEM 5 -->
+    <div class="problem-card">
+      <div class="problem-header">
+        <div class="problem-title">Problem 5 — Management Dilution + Simple Exit</div>
+        <div class="difficulty diff-1">Difficulty: 1 / 3</div>
+      </div>
+      <div class="problem-body">
+        <p class="problem-text">You acquire Company PQR with the following characteristics:</p>
+        <ul class="problem-bullets">
+          <li>Annual EBITDA of $20mm with no growth. Entry multiple is 6x EBITDA.</li>
+          <li>Initial net leverage is 4x EBITDA. Interest rate is 8%.</li>
+          <li>At exit, debt is paid down 40% from cumulative cash flow. No income statement needed — assume cash generated equals $32mm cumulatively over the hold.</li>
+          <li>Management owns 25% of total equity through awarded options.</li>
+        </ul>
+        <div class="problem-ask">What EBITDA multiple must you sell Company PQR at to generate a 2.5x MoM for the PE investor? Assume no EBITDA growth.</div>
+        <textarea class="answer-area" placeholder="Walk through your steps here. Entry → Debt → Equity → Target exit equity (gross up for mgmt) → Ending debt → Exit TEV → Exit multiple..."></textarea>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="toggleSolution('sol5')">Show Solution</button>
+          <button class="btn btn-secondary" onclick="clearAnswer(this)">Clear</button>
+        </div>
+        <div class="solution-panel" id="sol5">
+          <div class="solution-label">Step-by-Step Solution</div>
+          <ul class="solution-steps">
+            <li>Entry EBITDA = <span class="num">$20mm</span>. Entry TEV = $20 × 6x = <span class="num">$120mm</span></li>
+            <li>Initial Debt = $20 × 4x = <span class="num">$80mm</span>. Entry Equity = $120 − $80 = <span class="num">$40mm</span></li>
+            <li>PE needs 2.5x MoM → Required PE proceeds = $40 × 2.5 = <span class="num">$100mm</span></li>
+            <li><span class="warn">GROSS UP for mgmt 25%:</span> Total Exit Equity = $100 ÷ (1 − 0.25) = $100 ÷ 0.75 = <span class="num">$133.3mm</span></li>
+            <li>Ending Net Debt = $80 − $32 cumulative CF = <span class="num">$48mm</span> (40% paydown = $32, confirms: $80 × 0.40 = $32 ✓)</li>
+            <li>Exit TEV = $133.3 + $48 = <span class="num">$181.3mm</span></li>
+            <li>Exit Multiple = $181.3 ÷ $20 = <span class="num">~9.1x</span></li>
+          </ul>
+          <div class="pitfall-box">
+            <div class="pitfall-label">Watch For</div>
+            <div class="pitfall-text">The trap is using $100 as the exit equity instead of $133.3. Mgmt's 25% comes out of the total pool — you must gross up, not subtract. If you got ~7.6x you made that error.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROBLEM 6 -->
+    <div class="problem-card">
+      <div class="problem-header">
+        <div class="problem-title">Problem 6 — Full IS Build, Annual Debt Paydown</div>
+        <div class="difficulty diff-2">Difficulty: 2 / 3</div>
+      </div>
+      <div class="problem-body">
+        <p class="problem-text">You perform an LBO on Company MNO at the end of 2022.</p>
+        <ul class="problem-bullets">
+          <li>Company MNO will have revenues of $150mm in 2023, growing by $15mm annually. EBITDA margin is 25%. D&A is 8% of revenue. CapEx is $10mm per year.</li>
+          <li>No change in net working capital. Tax rate is 40%. Initial leverage is 4x forward EBITDA at an interest rate of 8%.</li>
+          <li>Cash flow pays down debt at the end of each year. Interest calculated on beginning debt balance.</li>
+          <li>Sell the company at the end of 3 years at 10x forward EBITDA.</li>
+        </ul>
+        <div class="problem-ask">What is the implied MoM and approximate IRR?</div>
+        <textarea class="answer-area" placeholder="Build your assumptions box first. Then entry. Then IS year by year (2023, 2024, 2025) plus forward year 2026 EBITDA only. Track debt paydown annually..."></textarea>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="toggleSolution('sol6')">Show Solution</button>
+          <button class="btn btn-secondary" onclick="clearAnswer(this)">Clear</button>
+        </div>
+        <div class="solution-panel" id="sol6">
+          <div class="solution-label">Step-by-Step Solution</div>
+          <ul class="solution-steps">
+            <li>Entry EBITDA (2023E) = $150 × 25% = <span class="num">$37.5mm</span>. Initial Debt = $37.5 × 4x = <span class="num">$150mm</span></li>
+            <li>Entry TEV = $37.5 × 10x = <span class="num">$375mm</span>. Entry Equity = $375 − $150 = <span class="num">$225mm</span></li>
+            <li>2023: Rev $150, EBITDA $37.5, D&A ($12), EBIT $25.5, Interest ($12 = 8%×$150), EBT $13.5, Tax ($5.4), NI $8.1, +D&A $12, −CapEx ($10), CF = <span class="num">$10.1mm</span>. End Debt = $150 − $10.1 = <span class="num">$139.9mm</span></li>
+            <li>2024: Rev $165, EBITDA $41.25, D&A ($13.2), EBIT $28.05, Interest ($11.2 = 8%×$139.9), EBT $16.85, Tax ($6.7), NI $10.15, +D&A $13.2, −CapEx ($10), CF = <span class="num">$13.35mm</span>. End Debt = <span class="num">$126.6mm</span></li>
+            <li>2025: Rev $180, EBITDA $45, D&A ($14.4), EBIT $30.6, Interest ($10.1 = 8%×$126.6), EBT $20.5, Tax ($8.2), NI $12.3, +D&A $14.4, −CapEx ($10), CF = <span class="num">$16.7mm</span>. End Debt = <span class="num">$109.9mm</span></li>
+            <li>Forward EBITDA (2026E): Rev $195, EBITDA = $195 × 25% = <span class="num">$48.75mm</span></li>
+            <li>Exit TEV = $48.75 × 10x = <span class="num">$487.5mm</span>. Exit Equity = $487.5 − $109.9 = <span class="num">$377.6mm</span></li>
+            <li>MoM = $377.6 ÷ $225 = <span class="num">~1.7x</span>. IRR: 1.7x over 3 yrs → below 2x, use Rule of 72 as ceiling → below 24%. Approx <span class="num">~19%</span></li>
+          </ul>
+          <div class="pitfall-box">
+            <div class="pitfall-label">Watch For</div>
+            <div class="pitfall-text">1) Interest must use beginning debt balance each year — it decreases as you pay down. 2) D&A is 8% of revenue ($150/$165/$180), not of EBITDA. 3) 2026 is forward year — EBITDA only, no IS below it.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROBLEM 7 -->
+    <div class="problem-card">
+      <div class="problem-header">
+        <div class="problem-title">Problem 7 — Solve Backwards for Max CapEx</div>
+        <div class="difficulty diff-2">Difficulty: 2 / 3</div>
+      </div>
+      <div class="problem-body">
+        <p class="problem-text">Your PE firm acquires Company STU at the end of 2021.</p>
+        <ul class="problem-bullets">
+          <li>Company STU will have revenues of $80mm in 2022, growing $10mm annually. EBITDA margin is 30%. D&A is 5% of revenue. No change in NWC. Tax rate is 50%.</li>
+          <li>Initial leverage is 5x forward EBITDA at 10% interest. No debt is paid down during the hold — all cash accumulates and is used at exit.</li>
+          <li>Entry and exit multiple is 8x forward EBITDA. Sell at end of 4 years.</li>
+        </ul>
+        <div class="problem-ask">How much can you cumulatively spend on capital expenditures over the hold period while still achieving a 3x MoM?</div>
+        <textarea class="answer-area" placeholder="Build IS for 4 years ignoring CapEx first. Get cumulative CF before CapEx. Then solve backwards: what ending debt allows 3x MoM? The gap is your CapEx budget..."></textarea>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="toggleSolution('sol7')">Show Solution</button>
+          <button class="btn btn-secondary" onclick="clearAnswer(this)">Clear</button>
+        </div>
+        <div class="solution-panel" id="sol7">
+          <div class="solution-label">Step-by-Step Solution</div>
+          <ul class="solution-steps">
+            <li>Entry EBITDA (2022E) = $80 × 30% = <span class="num">$24mm</span>. Debt = $24 × 5x = <span class="num">$120mm</span>. TEV = $24 × 8x = <span class="num">$192mm</span>. Equity = <span class="num">$72mm</span></li>
+            <li>Target exit equity for 3x MoM = $72 × 3 = <span class="num">$216mm</span></li>
+            <li>Forward EBITDA (2026E): Rev = $80 + ($10×4) = $120mm in 2025, forward year $130mm. EBITDA = $130 × 30% = <span class="num">$39mm</span></li>
+            <li>Exit TEV = $39 × 8x = <span class="num">$312mm</span></li>
+            <li>Required Ending Debt = Exit TEV − Required Exit Equity = $312 − $216 = <span class="num">$96mm</span></li>
+            <li>Max Debt Paydown Allowed = $120 − $96 = <span class="num">$24mm</span></li>
+            <li>Now build CF without CapEx: Interest = 10% × $120 = $12/yr (fixed, no paydown). IS each year → NI + D&A = pre-CapEx CF. Cumulative ≈ 2022: NI $6+D&A $4=$10 | 2023: $7.5+$4.5=$12 | 2024: $9+$5=$14 | 2025: $10.5+$5.5=$16 → Total pre-CapEx CF = <span class="num">~$52mm</span></li>
+            <li>Max CapEx = Pre-CapEx CF − Required Paydown = $52 − $24 = <span class="num">~$28mm</span></li>
+          </ul>
+          <div class="pitfall-box">
+            <div class="pitfall-label">Watch For</div>
+            <div class="pitfall-text">The key insight: solve backwards from the 3x constraint to find required ending debt first. Then compare to what cash you actually generate. The gap is your CapEx budget. Don't try to solve forward with CapEx as X — work backwards.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROBLEM 8 -->
+    <div class="problem-card">
+      <div class="problem-header">
+        <div class="problem-title">Problem 8 — Margin Expansion + Annual Paydown (Hard)</div>
+        <div class="difficulty diff-3">Difficulty: 3 / 3</div>
+      </div>
+      <div class="problem-body">
+        <p class="problem-text">You perform an LBO on Company VWX at the end of 2020.</p>
+        <ul class="problem-bullets">
+          <li>Revenues of $50mm in 2021, growing 20% annually. EBITDA margin starts at 15% and expands by 500bps every 2 years (15% in 2021–2022, 20% in 2023–2024, 25% in 2025–2026).</li>
+          <li>D&A is 10% of revenue. CapEx is 8% of revenue. NWC increases $3mm per year (use of cash). Tax rate is 50%.</li>
+          <li>Initial leverage is 4x forward EBITDA at 12% interest. Debt paid down with available CF at end of each year. Interest on beginning balance.</li>
+          <li>Sell at end of 4 years at 10x forward EBITDA.</li>
+        </ul>
+        <div class="problem-ask">What is the implied MoM and approximate IRR?</div>
+        <textarea class="answer-area" style="min-height:160px;" placeholder="This one has margin expansion AND annual debt paydown. Take it year by year. Track your debt balance carefully. Remember NWC $3mm is a NEGATIVE in your CF each year..."></textarea>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="toggleSolution('sol8')">Show Solution</button>
+          <button class="btn btn-secondary" onclick="clearAnswer(this)">Clear</button>
+        </div>
+        <div class="solution-panel" id="sol8">
+          <div class="solution-label">Step-by-Step Solution</div>
+          <ul class="solution-steps">
+            <li>Entry EBITDA (2021E) = $50 × 15% = <span class="num">$7.5mm</span>. Debt = $7.5 × 4x = <span class="num">$30mm</span>. TEV = $7.5 × 10x = <span class="num">$75mm</span>. Equity = <span class="num">$45mm</span></li>
+            <li>Revenue: 2021=$50, 2022=$60, 2023=$72, 2024=$86.4, fwd 2025=$103.7</li>
+            <li>Margins: 2021–22 = 15%, 2023–24 = 20%, fwd 2025 = 25%</li>
+            <li>2021: EBITDA $7.5, D&A ($5), EBIT $2.5, Int ($3.6=12%×$30), EBT ($1.1) → Tax $0, NI ($1.1), +D&A $5, −CapEx ($4=8%×$50), −NWC ($3), CF = <span class="num">($3.1mm)</span>. Can't pay down — End Debt stays <span class="num">$30mm</span></li>
+            <li>2022: EBITDA $9, D&A ($6), EBIT $3, Int ($3.6=12%×$30), EBT ($0.6) → Tax $0, NI ($0.6), +D&A $6, −CapEx ($4.8), −NWC ($3), CF = <span class="warn">($2.4mm)</span>. End Debt stays <span class="num">$30mm</span></li>
+            <li>2023: EBITDA $14.4, D&A ($7.2), EBIT $7.2, Int ($3.6), EBT $3.6, Tax ($1.8), NI $1.8, +D&A $7.2, −CapEx ($5.76), −NWC ($3), CF = <span class="num">$0.24mm</span>. End Debt = <span class="num">$29.76mm</span></li>
+            <li>2024: EBITDA $17.3, D&A ($8.6), EBIT $8.7, Int ($3.57=12%×$29.76), EBT $5.1, Tax ($2.6), NI $2.5, +D&A $8.6, −CapEx ($6.9), −NWC ($3), CF = <span class="num">$1.2mm</span>. End Debt = <span class="num">$28.6mm</span></li>
+            <li>Fwd EBITDA (2025E) = $103.7 × 25% = <span class="num">$25.9mm</span>. Exit TEV = $25.9 × 10x = <span class="num">$259mm</span></li>
+            <li>Exit Equity = $259 − $28.6 = <span class="num">$230.4mm</span>. MoM = $230.4 ÷ $45 = <span class="num">~5.1x</span>. IRR: 5x over 4 years → Rule of 144 gives ~36% as 4x anchor, slightly above → approx <span class="num">~50%+</span> (high because margin expansion is massive)</li>
+          </ul>
+          <div class="pitfall-box">
+            <div class="pitfall-label">Watch For</div>
+            <div class="pitfall-text">1) Years with negative CF cannot pay down debt — floor debt paydown at $0. 2) NWC outflow of $3mm is subtracted every year without fail. 3) Margin expansion is the value driver here — the exit EBITDA of $25.9mm is 3.5x the entry EBITDA of $7.5mm even though revenue "only" doubled.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function toggleSolution(id) {
+    const panel = document.getElementById(id);
+    panel.classList.toggle('open');
+    const btn = event.target;
+    btn.textContent = panel.classList.contains('open') ? 'Hide Solution' : 'Show Solution';
+  }
+
+  function clearAnswer(btn) {
+    const card = btn.closest('.problem-body');
+    const textarea = card.querySelector('.answer-area');
+    textarea.value = '';
+  }
+</script>
+
+</body>
+</html>
